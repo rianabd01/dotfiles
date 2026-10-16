@@ -2,8 +2,8 @@
 # Location: %APPDATA%\alacritty\alacritty.toml
 
 [general]
-# Default directory saat membuka terminal
-working_directory = "C:\\Users\\Rian"
+# Default directory saat membuka terminal (dikomentari agar otomatis memakai home directory user di OS apapun)
+# working_directory = "~"
 
 [window]
 # Sedikit padding agar tampilan lebih rapi dan tidak mepet ke tepi layar

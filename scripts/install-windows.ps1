@@ -14,28 +14,25 @@ Write-Host "AppData Path : $appData"
 Write-Host ""
 
 # 1. Alacritty
-$alacrittySource = Join-Path $dotfilesDir "windows\alacritty"
+$alacrittySource = Join-Path $dotfilesDir "shared\alacritty"
 $alacrittyDest = Join-Path $appData "alacritty"
 
 Write-Host "[1/2] Linking Alacritty..." -ForegroundColor Yellow
 if (Test-Path $alacrittyDest) {
     $item = Get-Item $alacrittyDest
     if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-        Write-Host "  Alacritty sudah berupa junction/link. Lewati." -ForegroundColor Gray
+        cmd /c rmdir "$alacrittyDest"
     } else {
         $backup = "$alacrittyDest.bak"
         Write-Host "  Membuat backup ke $backup..." -ForegroundColor Gray
         Move-Item $alacrittyDest $backup -Force
-        New-Item -ItemType Junction -Path $alacrittyDest -Target $alacrittySource | Out-Null
-        Write-Host "  ✓ Alacritty berhasil dihubungkan via Directory Junction!" -ForegroundColor Green
     }
-} else {
-    New-Item -ItemType Junction -Path $alacrittyDest -Target $alacrittySource | Out-Null
-    Write-Host "  ✓ Alacritty berhasil dihubungkan via Directory Junction!" -ForegroundColor Green
 }
+New-Item -ItemType Junction -Path $alacrittyDest -Target $alacrittySource | Out-Null
+Write-Host "  ✓ Alacritty berhasil dihubungkan via Directory Junction!" -ForegroundColor Green
 
 # 2. Zed
-$zedSource = Join-Path $dotfilesDir "windows\zed"
+$zedSource = Join-Path $dotfilesDir "shared\zed"
 $zedDest = Join-Path $appData "Zed"
 
 Write-Host "[2/2] Linking Zed..." -ForegroundColor Yellow
