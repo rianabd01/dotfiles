@@ -1,0 +1,15 @@
+# Windows system files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Backups
+*.bak
+*.tmp
+
+# Credentials / Secrets (jangan pernah commit token/key)
+*.key
+*.pem
+.env
+.env.*
+!*.example

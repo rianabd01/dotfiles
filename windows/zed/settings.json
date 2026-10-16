@@ -1,0 +1,105 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent_servers": {
+    "antigravity-acp": {
+      "default_config_options": {
+        "model": "gemini-3.8-flash"
+      },
+      "type": "registry"
+    }
+  },
+  "language_models": {
+    "openai_compatible": {
+      "9Router": {
+        "api_url": "http://localhost:20128/v1",
+        "available_models": [
+          {
+            "name": "coding",
+            "max_tokens": 200000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "reasoning_effort": "medium",
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": true,
+              "chat_completions": true,
+              "interleaved_reasoning": false,
+              "max_tokens_parameter": true
+            }
+          },
+          {
+            "name": "cx/gpt-5.3-codex",
+            "max_tokens": 128000,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": true,
+              "chat_completions": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "context_servers": {
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "@zhafron/mcp-web-search"]
+    }
+  },
+  "agent": {
+    "default_model": {
+      "provider": "9Router",
+      "model": "coding",
+      "enable_thinking": true,
+      "effort": "high"
+    },
+    "default_profile": "Agent",
+    "profiles": {
+      "Agent": {
+        "name": "Agent",
+        "tools": {
+          "terminal": true,
+          "edit_file": true,
+          "create_file": true,
+          "read_file": true,
+          "grep": true,
+          "find_path": true,
+          "diagnostics": true,
+          "fetch": true
+        }
+      }
+    },
+    "tool_permissions": {
+      "default": "confirm"
+    },
+    "dock": "right",
+    "sidebar_side": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "session": {
+    "trust_all_worktrees": false
+  },
+  "icon_theme": "Material Icon Theme",
+  "base_keymap": "VSCode",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato - No Italics"
+  }
+}

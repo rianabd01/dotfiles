@@ -1,0 +1,47 @@
+# Alacritty Configuration
+# Location: %APPDATA%\alacritty\alacritty.toml
+
+[general]
+# Default directory saat membuka terminal
+working_directory = "C:\\Users\\Rian"
+
+[window]
+# Sedikit padding agar tampilan lebih rapi dan tidak mepet ke tepi layar
+padding = { x = 10, y = 8 }
+# Efek transparansi (opsional, ganti nilai 1.0 menjadi 0.95 atau 0.9 jika ingin sedikit transparan)
+opacity = 1.0
+
+# ==============================================================================
+# Theme: One Dark (Atom / VS Code style)
+# ==============================================================================
+[colors.primary]
+background = "#282c34"
+foreground = "#abb2bf"
+
+[colors.cursor]
+text = "#282c34"
+cursor = "#528bff"
+
+[colors.selection]
+text = "#abb2bf"
+background = "#3e4451"
+
+[colors.normal]
+black   = "#1e2127"
+red     = "#e06c75"
+green   = "#98c379"
+yellow  = "#d19a66"
+blue    = "#61afef"
+magenta = "#c678dd"
+cyan    = "#56b6c2"
+white   = "#abb2bf"
+
+[colors.bright]
+black   = "#5c6370"
+red     = "#e06c75"
+green   = "#98c379"
+yellow  = "#d19a66"
+blue    = "#61afef"
+magenta = "#c678dd"
+cyan    = "#56b6c2"
+white   = "#abb2bf"
