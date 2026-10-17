@@ -2,7 +2,7 @@
 
 Repository kumpulan file konfigurasi (dotfiles) pribadi milik [@rianabd01](https://github.com/rianabd01).
 
-Dirancang dengan arsitektur **Shared OS** (cross-platform) sehingga konfigurasi yang sama dapat digunakan bersama secara konsisten di **Windows**, **Linux**, maupun **macOS**.
+Dirancang modular dan mandiri (tanpa linking real-time) agar konfigurasi lokal di komputer tetap independen, aman, dan dapat disinkronkan ke Git kapan pun dibutuhkan.
 
 ---
 
@@ -10,19 +10,20 @@ Dirancang dengan arsitektur **Shared OS** (cross-platform) sehingga konfigurasi 
 
 ```text
 dotfiles/
-├── shared/                      # 🌐 Konfigurasi utama yang dipakai bersama (Semua OS)
+├── shared/                      # 🌐 File konfigurasi
 │   ├── alacritty/
-│   │   ├── alacritty.toml      # Konfigurasi Alacritty (tema One Dark, padding, colors)
+│   │   ├── alacritty.toml      # Konfigurasi Alacritty (tema One Dark, padding, font)
 │   │   ├── cmd.ico
 │   │   └── Terminal.ico
 │   └── zed/
-│       ├── settings.json       # Pengaturan editor Zed (tema Catppuccin, 9Router, tools)
+│       ├── settings.json       # Pengaturan editor Zed (Catppuccin Mocha, 3270 font, model AI)
 │       └── AGENTS.md           # Prompt pedoman behavioral & coding guidelines untuk Zed Agent
 │
-├── scripts/                     # 🛠️ Script installer / linker per OS
-│   ├── install-windows.ps1     # Linking untuk Windows (Junction & HardLink ke %APPDATA%)
-│   ├── install-linux.sh        # Symlinking untuk Linux (ke ~/.config)
-│   └── install-macos.sh        # Symlinking untuk macOS (ke ~/.config)
+├── scripts/                     # 🛠️ Script utilitas
+│   ├── sync-to-repo.ps1        # Salin config dari AppData Windows ke repo dotfiles
+│   ├── install-windows.ps1     # Terapkan config dari repo ke AppData Windows
+│   ├── install-linux.sh        # Terapkan config untuk Linux (~/.config)
+│   └── install-macos.sh        # Terapkan config untuk macOS (~/.config)
 │
 ├── .gitignore
 └── README.md
@@ -30,53 +31,42 @@ dotfiles/
 
 ---
 
-## 🚀 Cara Setup / Restore Berdasarkan OS
+## 🔄 Cara Menyimpan Perubahan Lokal ke GitHub
 
-Clone repository ini ke folder home user:
+Ketika kamu selesai mengubah setting di Zed atau Alacritty dan ingin menyimpannya ke GitHub:
+
+1. **Jalankan script sync ke repo**:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File "$HOME\dotfiles\scripts\sync-to-repo.ps1"
+   ```
+
+2. **Commit dan Push ke Git**:
+   ```powershell
+   cd $HOME\dotfiles
+   git status
+   git add .
+   git commit -m "update zed and alacritty configs"
+   git push
+   ```
+
+---
+
+## 🚀 Cara Setup / Pasang di Komputer Baru
+
+Clone repository ini ke folder home:
 ```bash
 git clone https://github.com/rianabd01/dotfiles.git $HOME/dotfiles
 ```
 
-### 🪟 Windows
-Buka PowerShell dan jalankan:
-```powershell
-powershell -ExecutionPolicy Bypass -File "$HOME\dotfiles\scripts\install-windows.ps1"
-```
-*Script ini akan membuat Junction untuk `%APPDATA%\alacritty` dan HardLink untuk file Zed.*
-
-### 🐧 Linux
-Buka terminal dan jalankan:
-```bash
-chmod +x ~/dotfiles/scripts/install-linux.sh
-~/dotfiles/scripts/install-linux.sh
-```
-*Script ini akan membuat Symlink ke `~/.config/alacritty` dan `~/.config/zed`.*
-
-### 🍎 macOS
-Buka terminal dan jalankan:
-```bash
-chmod +x ~/dotfiles/scripts/install-macos.sh
-~/dotfiles/scripts/install-macos.sh
-```
-*Script ini akan membuat Symlink ke `~/.config/alacritty` dan `~/.config/zed`.*
-
----
-
-## 🔄 Cara Update / Sinkronisasi ke GitHub
-
-Karena file konfigurasi di setiap OS terhubung secara langsung (linked / symlinked), setiap perubahan yang kamu simpan di aplikasi (misalnya mengubah tema atau model AI di Zed) akan langsung terdeteksi oleh Git:
-
-```bash
-cd ~/dotfiles   # atau cd $HOME\dotfiles di Windows
-git status
-git add .
-git commit -m "feat(zed): update agent model settings"
-git push
-```
-
-Di komputer/OS kamu yang lain, cukup lakukan:
-```bash
-cd ~/dotfiles
-git pull
-```
-Konfigurasi di komputer tersebut akan langsung ter-update secara otomatis!
+- **Windows**:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File "$HOME\dotfiles\scripts\install-windows.ps1"
+  ```
+- **Linux**:
+  ```bash
+  bash ~/dotfiles/scripts/install-linux.sh
+  ```
+- **macOS**:
+  ```bash
+  bash ~/dotfiles/scripts/install-macos.sh
+  ```

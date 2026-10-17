@@ -1,5 +1,5 @@
 # install-windows.ps1
-# Script instalasi dan linking konfigurasi dotfiles untuk Windows
+# Script instalasi dan penyalinan konfigurasi dotfiles untuk Windows
 
 $ErrorActionPreference = "Stop"
 
@@ -17,37 +17,23 @@ Write-Host ""
 $alacrittySource = Join-Path $dotfilesDir "shared\alacritty"
 $alacrittyDest = Join-Path $appData "alacritty"
 
-Write-Host "[1/2] Linking Alacritty..." -ForegroundColor Yellow
-if (Test-Path $alacrittyDest) {
-    $item = Get-Item $alacrittyDest
-    if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-        cmd /c rmdir "$alacrittyDest"
-    } else {
-        $backup = "$alacrittyDest.bak"
-        Write-Host "  Membuat backup ke $backup..." -ForegroundColor Gray
-        Move-Item $alacrittyDest $backup -Force
-    }
+Write-Host "[1/2] Menyalin Alacritty..." -ForegroundColor Yellow
+if (-not (Test-Path $alacrittyDest)) {
+    New-Item -ItemType Directory -Path $alacrittyDest -Force | Out-Null
 }
-New-Item -ItemType Junction -Path $alacrittyDest -Target $alacrittySource | Out-Null
-Write-Host "  ✓ Alacritty berhasil dihubungkan via Directory Junction!" -ForegroundColor Green
+Copy-Item -Path "$alacrittySource\*" -Destination $alacrittyDest -Recurse -Force
+Write-Host "  ✓ Alacritty config berhasil disalin ke $alacrittyDest!" -ForegroundColor Green
 
 # 2. Zed
 $zedSource = Join-Path $dotfilesDir "shared\zed"
 $zedDest = Join-Path $appData "Zed"
 
-Write-Host "[2/2] Linking Zed..." -ForegroundColor Yellow
-if (Test-Path $zedDest) {
-    $item = Get-Item $zedDest
-    if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-        cmd /c rmdir "$zedDest"
-    } else {
-        $backup = "$zedDest.bak"
-        Write-Host "  Membuat backup ke $backup..." -ForegroundColor Gray
-        Move-Item $zedDest $backup -Force
-    }
+Write-Host "[2/2] Menyalin Zed..." -ForegroundColor Yellow
+if (-not (Test-Path $zedDest)) {
+    New-Item -ItemType Directory -Path $zedDest -Force | Out-Null
 }
-New-Item -ItemType Junction -Path $zedDest -Target $zedSource | Out-Null
-Write-Host "  ✓ Zed berhasil dihubungkan via Directory Junction!" -ForegroundColor Green
+Copy-Item -Path "$zedSource\*" -Destination $zedDest -Recurse -Force
+Write-Host "  ✓ Zed config berhasil disalin ke $zedDest!" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "Selesai! Konfigurasi Windows telah terhubung dengan dotfiles repo." -ForegroundColor Green
+Write-Host "Selesai! Konfigurasi Windows telah berhasil disalin dari dotfiles repo." -ForegroundColor Green
